@@ -58,7 +58,7 @@ public class Player {
     public int getHandValue()
     {
         int total = 0;
-        for (int x = 0; x <= getHandSize(); x++) {
+        for (int x = 0; x < getHandSize(); x++) {
             total += hand[x].getValue();
         }
 
