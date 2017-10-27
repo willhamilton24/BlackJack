@@ -67,8 +67,9 @@ public class Player {
 
     //"discard" the Player's hand when a new round begins
     public  void resetHand() {
-        for (int x = 0; x <= 11; x++) {
+        for (int x = 0; x <= 10; x++) {
             hand[x] = null;
+            nextIndex = 0;
         }
     }
 

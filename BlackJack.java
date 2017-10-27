@@ -44,17 +44,19 @@ public class BlackJack
                     player.addCardToHand(dealer.dealCard());
                 } else if (move.equals("stay")) {
                     playerActive = false;
-                } else if (player.getHandValue() > 21) {
-                    System.out.println("Player Busts!");
-                    winner = 1;
                 } else {
                     System.out.println("Move Not Recognized");
+                }
+                if (player.getHandValue() > 21) {
+                    System.out.println("Player Busts!");
+                    playerActive = false;
+                    winner = 1;
                 }
             }
             System.out.println("Player's Hand Value: " + player.getHandValue());
 
             // ++ Dealer's Turn ++
-            boolean dealerActive = true;
+            boolean dealerActive = winner != 1;
             while (dealerActive == true) {
                 if (dealer.getHandValue() < 16) {
                     dealer.addCardToHand(dealer.dealCard());
@@ -69,27 +71,32 @@ public class BlackJack
 
 
             // ++ Comparison / End ++
-            if (player.getHandValue() > dealer.getHandValue() || winner == 0) {
+            if (winner == 0 || (player.getHandValue() > dealer.getHandValue() && winner != 1)) {
                 System.out.println("Player Wins!");
                 player.countWin();
-                System.out.println("Player has " + player.getWinCount() + " wins");
-            } else if (player.getHandValue() < dealer.getHandValue() || winner == 1) {
+            } else if (winner == 1 || (player.getHandValue() < dealer.getHandValue() && winner != 0)) {
                 System.out.println("Dealer Wins!");
                 dealer.countWin();
-                System.out.println("Dealer has " + dealer.getWinCount() + " wins");
             } else {
                 System.out.println("Push!");
             }
 
-            // Play Again?
-            System.out.println("Play Again?");
-            String playAgain = keyboard.next().toLowerCase();
+            System.out.println("Dealer has " + dealer.getWinCount() + " wins");
+            System.out.println("Player has " + player.getWinCount() + " wins");
+
+            //Reset hands
+            player.resetHand();
+            dealer.resetHand();
+
+            // Play Again
             boolean playAgainValid = false;
             while (playAgainValid == false) {
-                if (playAgain == "no") {
+                System.out.println("Play Again?");
+                String playAgain = keyboard.next().toLowerCase();
+                if (playAgain.equals("no")) {
                     playing = false;
                     playAgainValid = true;
-                } else if (playAgain == "yes") {
+                } else if (playAgain.equals("yes")) {
                     playAgainValid = true;
                 } else {
                     System.out.println("Invalid Response: Please enter yes or no");
